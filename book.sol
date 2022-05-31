@@ -8,7 +8,7 @@ pragma solidity ^0.8.0;
 struct candidate{
     string title;
     string author;
-	uint book_token;    //xbooktoken
+    uint book_token;    //xbooktoken
 }
 
 contract BookToken {
@@ -26,11 +26,11 @@ contract BookToken {
     string private _name;
     string private _symbol;
 
-	function staking(address addr, uint256 amount) public{
-		_balances[addr]-=amount;
+    function staking(address addr, uint256 amount) public{
+	_balances[addr]-=amount;
         xbookToken[addr]+=amount;
         bookToken[addr]+=amount;
-	}
+    }
 
     constructor (string memory name_, string memory symbol_) {
         _name = name_;
@@ -139,33 +139,33 @@ contract BookToken {
         _num_candidates+=1;
     }
 
-	function total_candidates() public view returns(uint){
-	    return _num_candidates;
-	}
+    function total_candidates() public view returns(uint){
+	return _num_candidates;
+    }
 
-	function author(uint id) public view returns(string memory) {	
-		string memory _author=candidates[id].author;
-		return _author;
-	}
+    function author(uint id) public view returns(string memory) {	
+	string memory _author=candidates[id].author;
+	return _author;
+    }
 
-	function title(uint id) public view returns(string memory) {
-		string memory _title=candidates[id].title;
-		return _title;
-	}
+    function title(uint id) public view returns(string memory) {
+	string memory _title=candidates[id].title;
+	return _title;
+    }
 
-	function book_token(uint id) public view returns(uint){
-		uint _book_token=candidates[id].book_token;
-		return _book_token;
-	}
+    function book_token(uint id) public view returns(uint){
+	uint _book_token=candidates[id].book_token;
+	return _book_token;
+    }
 
-	function voting(address account, uint id, uint _book_token) public{
-		voting_num[account]+=1;
-        candidates[id].book_token+=_book_token*(voting_num[account]**2);
-        xbookToken[account]-=_book_token*(voting_num[account]**2);
-	}
+    function voting(address account, uint id, uint _book_token) public{
+	voting_num[account]+=1;
+	candidates[id].book_token+=_book_token*(voting_num[account]**2);
+	xbookToken[account]-=_book_token*(voting_num[account]**2);
+    }
     //Setting
     function init(address account, uint _book_token) public{
-        _balances[account]+=_book_token;
+       	_balances[account]+=_book_token;
     }
 
 }
