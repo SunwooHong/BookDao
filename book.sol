@@ -13,7 +13,8 @@ struct candidate{
 
 contract BookToken {
     mapping(address => uint256) private _balances;
-    mapping(address => uint256) private xbookToken;
+    mapping(address => uint256) private bookToken;  //staking amount
+    mapping(address => uint256) private xbookToken; //for voting
     mapping(uint => candidate) public candidates;
     mapping(address => uint256) private voting_num;
 
@@ -25,9 +26,10 @@ contract BookToken {
     string private _name;
     string private _symbol;
 
-	function staking(address addr, uint256 amount) public{ //북토큰을 x북토큰으로
+	function staking(address addr, uint256 amount) public{
 		_balances[addr]-=amount;
         xbookToken[addr]+=amount;
+        bookToken[addr]+=amount;
 	}
 
     constructor (string memory name_, string memory symbol_) {
@@ -55,6 +57,10 @@ contract BookToken {
 
     function balanceOf(address account) public view virtual returns (uint256) {
         return _balances[account];
+    }
+
+    function bookTokenOf(address account) public view virtual returns (uint256) {
+        return bookToken[account];
     }
 
     function xbookTokenOf(address account) public view virtual returns (uint256) {
@@ -127,7 +133,7 @@ contract BookToken {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    ////////////////
+    //voting
     function register (uint id, string memory _title, string memory _author) public{ 
         candidates[id]=candidate(_title, _author, 0);
         _num_candidates+=1;
